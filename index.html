@@ -131,7 +131,7 @@
   <p>Ну, всё… Надо дать ушам отдохнуть. А если хотите со мной поработать или просто
     шепнуть что-то приятное, напишите мне письмо:</p>
 
-  <form class="form" action="send.php" method="post" data-form novalidate>
+  <form class="form" action="https://formsubmit.co/ajax/da-scoo@ya.ru" method="post" data-form novalidate>
     <label class="f"><span class="f__l">Ваше имя</span>
       <input class="f__i" type="text" name="name" required autocomplete="name"></label>
     <label class="f"><span class="f__l">Ваш имейл</span>
@@ -144,7 +144,9 @@
       <input class="f__i" type="text" name="subject" required></label>
     <label class="f"><span class="f__l">Сообщение</span>
       <textarea class="f__i f__t" name="message" rows="5" required></textarea></label>
-    <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <input type="hidden" name="_subject">
+    <input type="hidden" name="_template" value="table">
+    <input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
     <button class="btn" type="submit" data-submit>Отправить</button>
     <span class="form__note" data-note role="status"></span>
   </form>
@@ -160,7 +162,7 @@
 
 </main>
 
-<script src="js/app.js?v=09172209"></script>
+<script src="js/app.js?v=10151500"></script>
 <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
 </body>
 </html>

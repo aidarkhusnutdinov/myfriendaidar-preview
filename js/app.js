@@ -120,10 +120,12 @@
       btn.textContent = 'Отправляю…';
       say('', '');
 
-      fetch(f.action, { method: 'POST', body: new FormData(f) })
+      // Письмо уходит через formsubmit.co — сервер сайту не нужен. Ответ: { success: "true" }.
+      f.elements._subject.value = 'Сайт: ' + f.elements.subject.value.trim();
+      fetch(f.action, { method: 'POST', body: new FormData(f), headers: { Accept: 'application/json' } })
         .then(function (r) { return r.json().catch(function () { throw new Error('bad'); }); })
         .then(function (d) {
-          if (d && d.ok) {
+          if (d && String(d.success) === 'true') {
             f.reset();
             say('Письмо ушло. Отвечу, как только прочитаю.', 'is-ok');
           } else {

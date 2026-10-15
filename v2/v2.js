@@ -778,10 +778,12 @@
       });
       if (bad.length) { say('Заполните отмеченные поля.', 'is-err'); bad[0].focus(); return; }
       btn.disabled = true; var was = btn.textContent; btn.textContent = 'Отправляю…'; say('', '');
-      fetch(form.action, { method: 'POST', body: new FormData(form) })
+      // Письмо уходит через formsubmit.co — сервер сайту не нужен. Ответ: { success: "true" }.
+      form.elements._subject.value = 'Сайт: ' + form.elements.subject.value.trim();
+      fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
         .then(function (r) { return r.json().catch(function () { throw new Error('bad'); }); })
         .then(function (d) {
-          if (d && d.ok) { form.reset(); say('Письмо ушло. Отвечу, как только прочитаю.', 'is-ok'); }
+          if (d && String(d.success) === 'true') { form.reset(); say('Письмо ушло. Отвечу, как только прочитаю.', 'is-ok'); }
           else throw new Error('bad');
         })
         .catch(function () { say('Отправить не вышло. Напишите на da-scoo@ya.ru или в телеграм — так точно дойдёт.', 'is-err'); })
