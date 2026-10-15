@@ -98,6 +98,8 @@
   function initForm(f) {
     var note = f.querySelector('[data-note]');
     var btn = f.querySelector('[data-submit]');
+    var typed = 0;   // когда начали печатать: бот заполняет форму мгновенно, человек — нет
+    f.addEventListener('input', function () { typed = typed || Date.now(); });
 
     f.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -112,6 +114,13 @@
       if (bad.length) {
         say('Заполните отмеченные поля.', 'is-err');
         bad[0].focus();
+        return;
+      }
+
+      // Слишком быстро или вообще без набора — бот: делаем вид, что ушло, и не шлём.
+      if (!typed || Date.now() - typed < 3000) {
+        f.reset();
+        say('Письмо ушло. Отвечу, как только прочитаю.', 'is-ok');
         return;
       }
 

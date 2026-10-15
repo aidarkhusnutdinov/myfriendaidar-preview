@@ -769,6 +769,8 @@
   if (form) {
     var note = form.querySelector('[data-note]'), btn = form.querySelector('[data-submit]');
     var say = function (t, c) { note.textContent = t; note.className = 'form__note ' + (c || ''); };
+    var typed = 0;   // когда начали печатать: бот заполняет форму мгновенно, человек — нет
+    form.addEventListener('input', function () { typed = typed || Date.now(); });
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var bad = [];
@@ -777,6 +779,8 @@
         if (!el.value.trim()) { el.classList.add('is-bad'); bad.push(el); }
       });
       if (bad.length) { say('Заполните отмеченные поля.', 'is-err'); bad[0].focus(); return; }
+      // Слишком быстро или вообще без набора — бот: делаем вид, что ушло, и не шлём.
+      if (!typed || Date.now() - typed < 3000) { form.reset(); say('Письмо ушло. Отвечу, как только прочитаю.', 'is-ok'); return; }
       btn.disabled = true; var was = btn.textContent; btn.textContent = 'Отправляю…'; say('', '');
       // Письмо уходит через formsubmit.co — сервер сайту не нужен. Ответ: { success: "true" }.
       form.elements._subject.value = 'Сайт: ' + form.elements.subject.value.trim();
