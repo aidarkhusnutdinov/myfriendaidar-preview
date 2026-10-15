@@ -765,6 +765,11 @@
   })(performance.now());
 
   /* ---------- Форма ---------- */
+  // Почта собирается из кусков уже в браузере: в коде страницы целого адреса нет,
+  // и боты, которые ищут адреса для спама, его не найдут.
+  var MAIL = ['da-scoo', 'ya.ru'].join('@');
+  document.querySelectorAll('[data-mail]').forEach(function (a) { a.href = 'mailto:' + MAIL; a.textContent = MAIL; });
+
   var form = $('[data-form]');
   if (form) {
     var note = form.querySelector('[data-note]'), btn = form.querySelector('[data-submit]');
@@ -790,7 +795,7 @@
           if (d && String(d.success) === 'true') { form.reset(); say('Письмо ушло. Отвечу, как только прочитаю.', 'is-ok'); }
           else throw new Error('bad');
         })
-        .catch(function () { say('Отправить не вышло. Напишите на da-scoo@ya.ru или в телеграм — так точно дойдёт.', 'is-err'); })
+        .catch(function () { say('Отправить не вышло. Напишите на ' + MAIL + ' или в телеграм — так точно дойдёт.', 'is-err'); })
         .finally(function () { btn.disabled = false; btn.textContent = was; });
     });
   }

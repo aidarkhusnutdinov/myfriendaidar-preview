@@ -92,6 +92,11 @@
 
   /* ---------- Форма ---------- */
 
+  // Почта собирается из кусков уже в браузере: в коде страницы целого адреса нет,
+  // и боты, которые ищут адреса для спама, его не найдут.
+  var MAIL = ['da-scoo', 'ya.ru'].join('@');
+  document.querySelectorAll('[data-mail]').forEach(function (a) { a.href = 'mailto:' + MAIL; a.textContent = MAIL; });
+
   var form = document.querySelector('[data-form]');
   if (form) initForm(form);
 
@@ -142,7 +147,7 @@
           }
         })
         .catch(function () {
-          say('Отправить не вышло. Напишите на da-scoo@ya.ru или в телеграм — так точно дойдёт.', 'is-err');
+          say('Отправить не вышло. Напишите на ' + MAIL + ' или в телеграм — так точно дойдёт.', 'is-err');
         })
         .finally(function () {
           btn.disabled = false;
