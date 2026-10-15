@@ -1,5 +1,5 @@
 /* Айдар Хуснутдинов — вторая версия.
-   Первый экран виден сразу; курсор пишет по фото светящийся мазок. Заголовки пишет кисть
+   Первый экран виден сразу. Заголовки пишет кисть
    Shygyrt вживую, когда до них долистали. Нажал на песню — в мини-плеере
    растёт эквалайзер, а имя светится цветами обложки. */
 (function () {
@@ -57,6 +57,7 @@
     st.forEach(function (s, i) {
       t += i === 0 ? 0 : (s.c === st[i - 1].c ? 0.05 : (s.c - st[i - 1].c > 1 ? 0.22 : 0.11));
       var d = 0.09 + s.l * 0.42;
+      if (i > 0 && box.dataset.tail) d *= +box.dataset.tail;   // усы стрелки рука ведёт медленнее древка
       raw.push([t, d]); t += d;
     });
 
@@ -117,7 +118,27 @@
     }, { rootMargin: '0px 0px -15% 0px' });
     io.observe(box);
   }
-  if (!reduce) $$('[data-brush]').forEach(function (b) { brushOnView(b, 2800); });
+  // Стрелка начинается чуть правее последней буквы фразы и упирается в край песни. Ставим её
+  // по факту вёрстки: ширина колонок и перенос строки зависят от окна и шрифта.
+  // Начало древка в brush/strelka.json — точка (13, 30) при ширине 447.
+  var arrow = $('[data-arrow]'), A_X = 13 / 447, A_Y = 30 / 447;
+  function placeArrow() {
+    var to = $('.story__to'), card = $('.card--best'), sec = $('.story');
+    if (!arrow || getComputedStyle(arrow).display === 'none') return;
+    var r = document.createRange(); r.selectNodeContents(to);
+    var ln = r.getClientRects(), L = ln[ln.length - 1];
+    var sr = sec.getBoundingClientRect(), cr = card.getBoundingClientRect();
+    var em = parseFloat(getComputedStyle(to).fontSize);
+    var x0 = L.right - sr.left + em * 0.8;                // рука отступает от буквы примерно на её ширину
+    var w = Math.max((cr.left - sr.left - 8 - x0) / (1 - A_X), 60);
+    arrow.style.left = (x0 - w * A_X) + 'px'; arrow.style.width = w + 'px';
+    arrow.style.top = (L.top - sr.top + L.height * 0.7 - w * A_Y) + 'px';   // чуть ниже середины строки
+  }
+  placeArrow();
+  addEventListener('resize', placeArrow);
+  if (document.fonts) document.fonts.ready.then(placeArrow);
+
+  if (!reduce) $$('[data-brush]').forEach(function (b) { brushOnView(b, b === arrow ? 1400 : 2800); });
   else $$('[data-brush]').forEach(function (b) { b.classList.add('is-img'); });
 
   /* ================= ЗВУК ================= */
@@ -305,67 +326,6 @@
     });
   }
 
-  /* ================= ФОТО: КУРСОР-КИСТЬ ================= */
-  // Курсор пишет по фото короткий мазок, как кисть Shygyrt: несколько волосков,
-  // у каждого свой отступ и толщина, сухие волоски местами отрываются от бумаги.
-  // Мазок — прорезь в грязи, сквозь неё светится тот же живой градиент, что в
-  // комнате: в тишине — цвета грязи и жёлтый синт, под музыку — цвета обложки.
-  // Мазок высыхает за пару секунд. Без мыши (телефон) кисть иногда проходит сама.
-  var mx = -1, my = -1;
-  addEventListener('pointermove', function (e) { if (e.pointerType === 'mouse') { mx = e.clientX; my = e.clientY; } }, { passive: true });
-  var hero = $('[data-hero]'), bOut = $('[data-brush-fx]'), bCtx = bOut && bOut.getContext('2d');
-  var bMask = document.createElement('canvas'), bmCtx = bMask.getContext('2d');
-  var bris = [], NBR = 11;
-  for (var bi = 0; bi < NBR; bi++) bris.push({ o: (bi / (NBR - 1) - 0.5) * (1.1 + Math.random() * 0.3), w: 0.04 + Math.random() * 0.1, ph: Math.random() * 9 });
-  var bx = -1, by = -1, bLive = 0, bAuto = 0, bW = 0, bH = 0, touch = matchMedia('(hover: none)').matches;
-  function brushSeg(x0, y0, x1, y1, sp, now) {
-    var dx = x1 - x0, dy = y1 - y0, len = Math.sqrt(dx * dx + dy * dy) || 1;
-    var nx = -dy / len, ny = dx / len;
-    var size = (clamp(48 - sp * 0.35, 20, 46) + 8) * bW / 1400;   // быстрее ведёшь — тоньше и суше
-    bmCtx.lineCap = 'round';
-    bris.forEach(function (b) {
-      var dry = Math.sin(now / 90 + b.ph) + Math.sin(now / 37 + b.ph * 2);   // волосок то касается, то нет
-      if (dry < -0.5 + sp * 0.012) return;
-      bmCtx.globalAlpha = 0.75 + 0.25 * Math.sin(b.ph);
-      bmCtx.lineWidth = Math.max(1, size * b.w);
-      bmCtx.beginPath();
-      bmCtx.moveTo(x0 + nx * b.o * size, y0 + ny * b.o * size);
-      bmCtx.lineTo(x1 + nx * b.o * size, y1 + ny * b.o * size);
-      bmCtx.stroke();
-    });
-    bmCtx.globalAlpha = 1;
-    bLive = now;
-  }
-  function brushFrame(now) {
-    if (!fluid || !bOut) return;
-    var r = hero.getBoundingClientRect();
-    if (r.bottom < 0 || r.top > innerHeight) return;
-    var W = Math.round(r.width), H = Math.round(r.height);
-    if (W !== bW || H !== bH) {   // мазок мягкий, хватит половины разрешения
-      bW = W; bH = H; bOut.width = bMask.width = Math.round(W / 2); bOut.height = bMask.height = Math.round(H / 2);
-      bmCtx.setTransform(0.5, 0, 0, 0.5, 0, 0); bx = -1;
-    }
-    var tx = -1, ty = -1;
-    if (mx >= 0 && my > r.top && my < r.bottom) { tx = mx - r.left; ty = my - r.top; }
-    else if (touch && now - bAuto < 1400) {   // без мыши: короткий проход сам по себе
-      var a = (now - bAuto) / 1400;
-      tx = W * (0.15 + 0.7 * a); ty = H * (0.55 + 0.12 * Math.sin(a * 5 + bAuto));
-    } else if (touch && now - bAuto > 6000) bAuto = now;
-    if (tx >= 0) {
-      if (bx >= 0) {
-        var sp = Math.hypot(tx - bx, ty - by);
-        if (sp > 1.5) brushSeg(bx, by, tx, ty, sp, now);
-      }
-      bx = tx; by = ty;
-    } else bx = -1;
-    if (now - bLive > 2600) { if (bLive) { bCtx.clearRect(0, 0, W, H); bmCtx.clearRect(0, 0, W, H); bLive = 0; } return; }
-    // Высыхание: маска гаснет понемногу каждый кадр.
-    bmCtx.globalCompositeOperation = 'destination-out';
-    bmCtx.fillStyle = 'rgba(0,0,0,.022)'; bmCtx.fillRect(0, 0, W, H);
-    bmCtx.globalCompositeOperation = 'source-over';
-    bCtx.globalCompositeOperation = 'copy'; bCtx.drawImage(bMask, 0, 0);
-    bCtx.globalCompositeOperation = 'source-in'; bCtx.drawImage(flat, 0, 0, bOut.width, bOut.height);
-  }
   /* ================= ЭКВАЛАЙЗЕР ================= */
   // Показываем там, где на него смотрят: на обложке играющей песни и в мини-плеере
   // (он виден с любого места страницы). 24 полосы по октавам — слева бас, справа верх.
@@ -424,8 +384,8 @@
   // Как анимированные обложки в Apple Music: пять размытых пятен цветов обложки
   // играющей песни плывут по фону и мягко дышат басом. Мелодия ускоряет течение,
   // а удар бочки не мигает, а подталкивает течение — пятна на миг плывут быстрее.
-  // Визуализация одна на всю страницу: фоны полосы с DIRT, комнаты и письма, имя,
-  // штриховка под словами и мазок по фото. В тишине она застывшая — как кадр, на
+  // Визуализация одна на всю страницу: фоны полосы с DIRT, комнаты и письма, имя
+  // и штриховка под словами. В тишине она застывшая — как кадр, на
   // котором остановилась; любая песня её оживляет, пауза снова плавно замораживает.
   // Застывший кадр не перерисовывается — видеокарта отдыхает.
   // Считаем в половинном разрешении: картинка всё равно размытая.
@@ -663,7 +623,7 @@
 
   /* ================= ГРЯЗЬ, КОТОРАЯ СВЕТИТСЯ ================= */
   // Мазки кисти и штрихи — прорезь, сквозь неё видна та же визуализация, что на фонах:
-  // имя, штриховка под словами, мазок курсора по фото. Считаем её в маленьком
+  // имя и штриховка под словами. Считаем её в маленьком
   // холсте, каждая надпись — маска поверх.
   var fluidCv = document.createElement('canvas');
   var fluid = reduce ? null : new Glow(fluidCv, [0.62, 0.36, 0.12], [1, 0, 0], 0);   // между пятнами — тёплая охра
@@ -685,7 +645,7 @@
     }
     fluid.draw({ t: gT * 1.5, kick: gBass, mid: gMid, on: 1, cols: cols, pos: pos }, 320, 140);
     // Кадр из WebGL забираем один раз в обычный холст: иначе каждая маска тянула бы его
-    // из видеокарты отдельно. Этот же кадр берёт мазок по фото.
+    // из видеокарты отдельно. 
     if (flat.width !== 320) { flat.width = 320; flat.height = 140; }
     flatCtx.globalCompositeOperation = 'copy'; flatCtx.drawImage(fluidCv, 0, 0);
     glowDirty = false;
@@ -760,7 +720,7 @@
   /* ---------- Главный цикл ---------- */
   (function frame(now) {
     readLevel(now);
-    eqFrame(); glowFrame(now); fluidFrame(); brushFrame(now);
+    eqFrame(); glowFrame(now); fluidFrame();
     requestAnimationFrame(frame);
   })(performance.now());
 

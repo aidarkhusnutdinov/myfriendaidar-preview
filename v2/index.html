@@ -14,15 +14,14 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="../fonts/fonts.css?v=14040000">
 <link rel="stylesheet" href="fonts/fonts.css?v=14040000">
-<link rel="stylesheet" href="v2.css?v=14101000">
+<link rel="stylesheet" href="v2.css?v=15101900">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
 
 <!-- 1. Первый экран виден сразу: имя → фото → «Пишу песни · Аранжирую · Свожу»
-     тушью на полях штриховки. Имя — мазки, сквозь которые светится живой градиент.
-     Курсор пишет по фото такой же светящийся мазок. -->
+     тушью на полях штриховки. Имя — мазки, сквозь которые светится живой градиент. -->
 <h1 class="name" id="top"><img src="img/name.svg" alt="Айдар Хуснутдинов" width="1791" height="186"></h1>
 
 <figure class="hero" data-hero>
@@ -32,8 +31,6 @@
   </picture>
   <!-- Белый контур вокруг человека — кривой, как обвёл ребёнок, с блёстками (tools/outline_photo.py). -->
   <div class="hero__line" aria-hidden="true"></div>
-  <!-- Кисть: курсор пишет по фото мазок, сквозь него светится живой градиент. -->
-  <canvas class="hero__fx" data-brush-fx aria-hidden="true"></canvas>
 </figure>
 
 <ul class="skills">
@@ -68,8 +65,11 @@
       беспощадный экспериментал, от которого люди, матерясь, выходят из зала,
       я это писал. Или собираюсь написать. Для себя или на заказ. Может быть,
       мы это напишем вместе с вами!</p>
-    <p class="story__to">Если надо выбрать одну мою самую лучшую песню, то вот она:</p>
+    <p class="story__to">Если надо выбрать одну мою самую лучшую песню, то вот она</p>
   </div>
+  <!-- Стрелка кистью от конца фразы «…вот она» к песне, провисает под строкой. Место
+       считает скрипт по концу фразы и краю обложки. На телефоне песня и так под фразой. -->
+  <div class="story__arrow" data-brush="brush/strelka.json" data-tail="2.2" data-arrow aria-hidden="true"><img src="img/strelka.svg" alt=""></div>
   <div class="story__best">
     <ul class="best__list">
     <li class="card card--best" data-song="dirt" data-audio="../audio/dirt.mp3" data-cover="../covers/dirt-feat-michael-james.jpg">
@@ -202,6 +202,6 @@
 <script src="vendor/gsap.min.js"></script>
 <script src="vendor/ScrollTrigger.min.js"></script>
 <script src="waves.js?v=14040000"></script>
-<script src="v2.js?v=15101700"></script>
+<script src="v2.js?v=15102100"></script>
 </body>
 </html>

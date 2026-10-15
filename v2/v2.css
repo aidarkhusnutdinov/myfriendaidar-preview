@@ -2,7 +2,7 @@
    Первый экран как в основной версии, виден сразу. Дальше текст и лучшая песня
    рядом: пока читаешь, DIRT перед глазами. Потом «комната прослушивания» — сетка 3×3,
    за которой дышит живой градиент из цветов обложки. Тот же градиент светится сквозь
-   мазки: в имени и в мазке, который курсор пишет по фото.
+   мазки имени.
    Крупные надписи пишет кисть Shygyrt, остальное — Rubik. */
 
 :root{
@@ -42,8 +42,6 @@ button{ font:inherit; color:inherit }
 
 /* ---------- 2. Фото и кисть ---------- */
 .hero{ margin:0; position:relative; overflow:hidden }
-/* Мазок кисти по фото: светящийся градиент, наложенный «экраном» — грязь отливает. */
-.hero__fx{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; mix-blend-mode:screen; filter:saturate(1.4) brightness(1.15) }
 .hero img{ width:100%; height:min(70vh,43.48vw); object-fit:cover; object-position:center 30% }   /* как в основной версии */
 /* Контур: бумага сайта, видна только сквозь маску-линию. Маска кадрируется так же, как фото (cover, center 30%). */
 .hero__line{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; background:var(--paper);
@@ -154,6 +152,9 @@ button{ font:inherit; color:inherit }
 .story__to{ margin:0; font-size:clamp(20px,1.75vw,24px); font-weight:500 }
 .story__best{ position:sticky; bottom:clamp(20px,4vh,40px); align-self:end; isolation:isolate }
 .best__list{ list-style:none; margin:0; padding:0 }
+/* Стрелка кистью от конца фразы к песне. Левый край, ширину и высоту ставит скрипт. */
+.story__arrow{ position:absolute; left:0; top:0; width:0; pointer-events:none; z-index:1 }
+.story__arrow img, .story__arrow canvas{ display:block; width:100%; height:auto }
 /* Когда играет DIRT, оживает вся полоса экрана: живой градиент во всю ширину окна,
    сверху и снизу растворяется в бумаге. */
 .story{ position:relative; isolation:isolate }
@@ -282,6 +283,7 @@ button{ font:inherit; color:inherit }
 @media (max-width:900px){
   .story{ grid-template-columns:1fr; align-items:start }
   .story__best{ position:relative; max-width:480px }
+  .story__arrow{ display:none }
   .grid{ grid-template-columns:repeat(2,minmax(0,1fr)) }
 }
 @media (max-width:640px){
