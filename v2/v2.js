@@ -19,6 +19,15 @@
   };
   var clamp = function (v, a, b) { return Math.max(a, Math.min(b, v)); };
   if (hasGsap) gsap.registerPlugin(ScrollTrigger);
+  // Слова, которые пишет скрипт. Язык — из <html lang>: v2/ русская, v2/en/ английская.
+  var T = {
+    ru: { listen: 'Слушать: ', pause: 'Пауза', play: 'Играть', fill: 'Заполните отмеченные поля.',
+          sent: 'Письмо ушло. Отвечу, как только прочитаю.', sending: 'Отправляю…', subj: 'Сайт: ',
+          fail: function (m) { return 'Отправить не вышло. Напишите на ' + m + ' или в телеграм — так точно дойдёт.'; } },
+    en: { listen: 'Listen: ', pause: 'Pause', play: 'Play', fill: 'Please fill in the marked fields.',
+          sent: "Message sent. I'll reply as soon as I read it.", sending: 'Sending…', subj: 'Site: ',
+          fail: function (m) { return "Couldn't send it. Write to " + m + " or on Telegram, that way it'll definitely get through."; } }
+  }[root.lang === 'en' ? 'en' : 'ru'];
   var yr = $('[data-year]'); if (yr) yr.textContent = new Date().getFullYear();
 
   /* ================= КИСТЬ ВЖИВУЮ ================= */
@@ -194,7 +203,7 @@
   }
 
   function title(el) {
-    return (el.querySelector('[aria-label]').getAttribute('aria-label') || '').replace(/^Слушать: /, '');
+    return (el.querySelector('[aria-label]').getAttribute('aria-label') || '').replace(T.listen, '');
   }
 
   function play(el, seekFrac) {
@@ -227,7 +236,7 @@
   function sync() {
     var on = cur && !au.paused;
     $('[data-mini-btn]').textContent = on ? '❚❚' : '▶';
-    $('[data-mini-btn]').setAttribute('aria-label', on ? 'Пауза' : 'Играть');
+    $('[data-mini-btn]').setAttribute('aria-label', on ? T.pause : T.play);
     if (!cur) return;
     cur.classList.toggle('is-play', !!on);
     cur.querySelector('.strip__play').textContent = on ? '❚❚' : '▶';
@@ -714,7 +723,7 @@
   addEventListener('resize', barMeasure);
   addEventListener('load', barMeasure);
   if (spacerImg.complete) barMeasure(); else spacerImg.addEventListener('load', barMeasure, { once: true });
-  fetch('brush/name.json').then(function (r) { if (!r.ok) throw 0; return r.json(); })
+  fetch($('[data-name-brush]').dataset.nameBrush).then(function (r) { if (!r.ok) throw 0; return r.json(); })
     .then(function (d) { if (fluid) buildName(d); }, function () {});
 
   /* ---------- Главный цикл ---------- */
@@ -743,19 +752,19 @@
         var el = form.elements[n]; el.classList.remove('is-bad');
         if (!el.value.trim()) { el.classList.add('is-bad'); bad.push(el); }
       });
-      if (bad.length) { say('Заполните отмеченные поля.', 'is-err'); bad[0].focus(); return; }
+      if (bad.length) { say(T.fill, 'is-err'); bad[0].focus(); return; }
       // Слишком быстро или вообще без набора — бот: делаем вид, что ушло, и не шлём.
-      if (!typed || Date.now() - typed < 3000) { form.reset(); say('Письмо ушло. Отвечу, как только прочитаю.', 'is-ok'); return; }
-      btn.disabled = true; var was = btn.textContent; btn.textContent = 'Отправляю…'; say('', '');
+      if (!typed || Date.now() - typed < 3000) { form.reset(); say(T.sent, 'is-ok'); return; }
+      btn.disabled = true; var was = btn.textContent; btn.textContent = T.sending; say('', '');
       // Письмо уходит через formsubmit.co — сервер сайту не нужен. Ответ: { success: "true" }.
-      form.elements._subject.value = 'Сайт: ' + form.elements.subject.value.trim();
+      form.elements._subject.value = T.subj + form.elements.subject.value.trim();
       fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
         .then(function (r) { return r.json().catch(function () { throw new Error('bad'); }); })
         .then(function (d) {
-          if (d && String(d.success) === 'true') { form.reset(); say('Письмо ушло. Отвечу, как только прочитаю.', 'is-ok'); }
+          if (d && String(d.success) === 'true') { form.reset(); say(T.sent, 'is-ok'); }
           else throw new Error('bad');
         })
-        .catch(function () { say('Отправить не вышло. Напишите на ' + MAIL + ' или в телеграм — так точно дойдёт.', 'is-err'); })
+        .catch(function () { say(T.fail(MAIL), 'is-err'); })
         .finally(function () { btn.disabled = false; btn.textContent = was; });
     });
   }

@@ -14,15 +14,17 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="../fonts/fonts.css?v=14040000">
 <link rel="stylesheet" href="fonts/fonts.css?v=14040000">
-<link rel="stylesheet" href="v2.css?v=15101900">
+<link rel="stylesheet" href="v2.css?v=18101100">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="alternate" hreflang="ru" href="https://myfriendaidar.com/v2/">
+<link rel="alternate" hreflang="en" href="https://myfriendaidar.com/v2/en/">
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
 
 <!-- 1. Первый экран виден сразу: имя → фото → «Пишу песни · Аранжирую · Свожу»
      тушью на полях штриховки. Имя — мазки, сквозь которые светится живой градиент. -->
-<h1 class="name" id="top"><img src="img/name.svg" alt="Айдар Хуснутдинов" width="1791" height="186"></h1>
+<h1 class="name" id="top" data-name-brush="brush/name.json"><img src="img/name.svg" alt="Айдар Хуснутдинов" width="1791" height="186"></h1>
 
 <figure class="hero" data-hero>
   <picture>
@@ -44,7 +46,7 @@
      уходят влево, справа проявляется меню. Имя светится грязью. -->
 <header class="bar" data-bar>
   <a class="bar__name" href="#top" aria-hidden="true" tabindex="-1" data-name><img src="img/name.svg" alt=""></a>
-  <nav class="bar__nav"><a href="#story">Обо мне</a><a href="#songs">Песни</a><a href="#write">Написать</a></nav>
+  <nav class="bar__nav"><a href="#story">Обо мне</a><a href="#songs">Песни</a><a href="#write">Написать</a><a class="bar__lang" href="en/" hreflang="en" lang="en">EN</a></nav>
 </header>
 
 <main id="main">
@@ -99,8 +101,8 @@
     </li>
     <li class="card" data-song="flow" data-audio="../audio/flow.mp3" data-cover="../covers/flow.jpg">
       <span class="card__cover"><img src="../covers/flow.jpg" alt="" loading="lazy"></span>
-      <span class="strip"><button class="strip__play" type="button" aria-label="Слушать: My Friend Aidar — Flow">▶</button><svg class="strip__wave" data-wave preserveAspectRatio="none" aria-hidden="true"></svg><span class="strip__time" data-dur></span></span>
-      <span class="card__name">My Friend Aidar — Flow</span>
+      <span class="strip"><button class="strip__play" type="button" aria-label="Слушать: My Friend Aidar — Flow (feat. Vanya Limb, амперметр, Sofiya Ozdzhan &amp; Sergio Vasko)">▶</button><svg class="strip__wave" data-wave preserveAspectRatio="none" aria-hidden="true"></svg><span class="strip__time" data-dur></span></span>
+      <span class="card__name">My Friend Aidar — Flow (feat. Vanya Limb, амперметр, Sofiya Ozdzhan &amp; Sergio Vasko)</span>
       <span class="card__role">музыка · текст · продакшн · вокал · сведение · мастеринг</span>
     </li>
     <li class="card" data-song="jyldys" data-audio="../audio/jyldys.mp3" data-cover="../covers/jyldys.jpg">
@@ -202,6 +204,6 @@
 <script src="vendor/gsap.min.js"></script>
 <script src="vendor/ScrollTrigger.min.js"></script>
 <script src="waves.js?v=14040000"></script>
-<script src="v2.js?v=15102100"></script>
+<script src="v2.js?v=18101000"></script>
 </body>
 </html>
