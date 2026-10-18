@@ -5,131 +5,157 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Айдар Хуснутдинов — музыкант, программист, звукорежиссёр</title>
 <meta name="description" content="Айдар Хуснутдинов. Мои песни пели нишевые музыканты в маленьких потных клубах и Николай Носков для десятитысячной спортивной арены.">
+<meta name="theme-color" content="#EEECE6">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Айдар Хуснутдинов">
 <meta property="og:description" content="Музыкант, программист, звукорежиссёр.">
-<meta property="og:url" content="https://myfriendaidar.com/">
 <meta property="og:image" content="https://myfriendaidar.com/og.png">
 <meta property="og:locale" content="ru_RU">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="fonts/fonts.css">
-<link rel="stylesheet" href="css/style.css?v=10012240">
+<link rel="stylesheet" href="fonts/fonts.css?v=18101200">
+<link rel="stylesheet" href="v2.css?v=18101200">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="alternate" hreflang="ru" href="https://myfriendaidar.com/">
+<link rel="alternate" hreflang="en" href="https://myfriendaidar.com/en/">
+<script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
 
-<a class="skip" href="#main">К содержанию</a>
+<!-- 1. Первый экран виден сразу: имя → фото → «Пишу песни · Аранжирую · Свожу»
+     тушью на полях штриховки. Имя — мазки, сквозь которые светится живой градиент. -->
+<h1 class="name" id="top" data-name-brush="brush/name.json"><img src="img/name.svg" alt="Айдар Хуснутдинов" width="1791" height="186"></h1>
 
-<h1 class="name"><img src="name.svg?v=09172209" alt="Айдар Хуснутдинов"></h1>
-
-<!-- Фото во всю ширину. Собирается из исходника скриптом tools/prep_photo.py
-     (цвет + обрезка), см. tools/README.md. -->
-<figure class="hero">
+<figure class="hero" data-hero>
   <picture>
-    <source media="(max-width:640px)" srcset="photo-mob.jpg?v=10021115">
-    <img src="photo.jpg?v=10021115" alt="Айдар Хуснутдинов" width="2000" height="870">
+    <source media="(max-width:640px)" srcset="img/photo-mob.jpg?v=5">
+    <img src="img/photo.jpg?v=5" alt="Айдар Хуснутдинов" width="2000" height="870" data-photo>
   </picture>
+  <!-- Белый контур вокруг человека — кривой, как обвёл ребёнок, с блёстками (tools/outline_photo.py). -->
+  <div class="hero__line" aria-hidden="true"></div>
 </figure>
 
-<!-- ЧЕРНОВИК: список компетенций я пока собрал сам, нужно ваше слово -->
 <ul class="skills">
-  <li><span class="note"><img src="note-1.svg?v=09282200" alt="Пишу песни" width="950" height="186"></span></li>
-  <li><span class="note"><img src="note-2.svg?v=09282200" alt="Аранжирую" width="908" height="184"></span></li>
-  <li><span class="note"><img src="note-3.svg?v=09282200" alt="Свожу" width="506" height="155"></span></li>
+  <li class="skills__bg" aria-hidden="true"><canvas data-glow-skills></canvas></li>
+  <li><span class="word"><img src="img/skill-1.svg" alt="Пишу песни"></span></li>
+  <li><span class="word"><img src="img/skill-2.svg" alt="Аранжирую"></span></li>
+  <li><span class="word"><img src="img/skill-3.svg" alt="Свожу"></span></li>
 </ul>
+
+<!-- Шапка: большая полоса с именем при прокрутке сжимается в маленькую, потом буквы
+     уходят влево, справа проявляется меню. Имя светится грязью. -->
+<header class="bar" data-bar>
+  <a class="bar__name" href="#top" aria-hidden="true" tabindex="-1" data-name><img src="img/name.svg" alt=""></a>
+  <nav class="bar__nav"><a href="#story">Обо мне</a><a href="#songs">Песни</a><a href="#write">Написать</a><a class="bar__lang" href="en/" hreflang="en" lang="en">EN</a></nav>
+</header>
 
 <main id="main">
 
-  <!-- «Музыкант, программист, звукорежиссёр» убрано: дублирует плашки выше.
-       В <title> и og:description строка осталась — там она не дублирует ничего. -->
-  <p class="role role--2">Еще я, конечно, сын, брат, гражданин… Но информацию об этом
-    на сайте придется искать между строк.</p>
-
-  <p class="lead-in">Начнем с того, что я</p>
-  <h2 class="h2"><img src="h2.svg?v=09172209" alt="Пишу музыку"></h2>
-
-  <p>Так исторически сложилось, что это моя главная работа. Мои песни пели нишевые
-    музыканты в маленьких потных клубах и Николай Носков для десятитысячной
-    спортивной арены. Они звучали в кино и спектаклях и попадали в официальные
-    международные плейлисты Apple Music. Что бы вы ни любили, нежную попсу или
-    беспощадный экспериментал, от которого люди, матерясь, выходят из зала,
-    я это писал. Или собираюсь написать. Для себя или на заказ. Может быть,
-    мы это напишем вместе с вами!</p>
-
-  <p>Если надо выбрать одну мою самую лучшую песню, то вот она:</p>
-
-  <div class="best" data-audio="audio/dirt.mp3">
-    <div class="best__in">
-      <span class="best__cover"><img src="covers/dirt-feat-michael-james.jpg" alt=""></span>
-      <span class="best__txt">
-        <span class="best__name">Djinn City, Michael James — DIRT</span>
-        <span class="best__role">музыка · текст · продакшн · вокал</span>
-        <span class="strip"><button class="strip__play" type="button" aria-label="Слушать: Djinn City, Michael James — DIRT">▶</button><span class="strip__track"><span class="strip__bar"></span></span><span class="strip__time">0:00</span></span>
-      </span>
-    </div>
+<!-- 2. Текст и лучшая песня рядом. Фон полосы — та же визуализация, что в комнате,
+     но на бумаге: застывшая, оживает от любой песни. -->
+<section class="story" id="story">
+  <canvas class="story__glow" data-glow-best aria-hidden="true"></canvas>
+  <div class="story__text">
+    <p class="story__aside">Еще я, конечно, сын, брат, гражданин… Но информацию об этом
+      на сайте придется искать между строк.</p>
+    <p class="story__lead">Начнем с того, что я</p>
+    <h2 class="story__h" data-brush="brush/pishu.json"><img src="img/pishu.svg" alt="Пишу музыку"></h2>
+    <p class="story__p" data-words>А еще аранжирую ее и свожу. Так исторически сложилось, что это моя главная работа. Мои песни пели нишевые
+      музыканты в маленьких потных клубах и Николай Носков для десятитысячной
+      спортивной арены. Они звучали в кино и спектаклях и попадали в официальные
+      международные плейлисты Apple Music. Что бы вы ни любили, нежную попсу или
+      беспощадный экспериментал, от которого люди, матерясь, выходят из зала,
+      я это писал. Или собираюсь написать. Для себя или на заказ. Может быть,
+      мы это напишем вместе с вами!</p>
+    <p class="story__to">Если надо выбрать одну мою самую лучшую песню, то вот она</p>
   </div>
+  <!-- Стрелка кистью от конца фразы «…вот она» к песне, провисает под строкой. Место
+       считает скрипт по концу фразы и краю обложки. На телефоне песня и так под фразой. -->
+  <div class="story__arrow" data-brush="brush/strelka.json" data-tail="2.2" data-arrow aria-hidden="true"><img src="img/strelka.svg" alt=""></div>
+  <div class="story__best">
+    <ul class="best__list">
+    <li class="card card--best" data-song="dirt" data-audio="audio/dirt.mp3" data-cover="covers/dirt-feat-michael-james.jpg">
+      <span class="card__cover"><img src="covers/dirt-feat-michael-james.jpg" alt="" loading="lazy"></span>
+      <span class="strip"><button class="strip__play" type="button" aria-label="Слушать: Djinn City, Michael James — DIRT">▶</button><svg class="strip__wave" data-wave preserveAspectRatio="none" aria-hidden="true"></svg><span class="strip__time" data-dur></span></span>
+      <span class="card__name">Djinn City, Michael James — DIRT</span>
+      <span class="card__role">музыка · текст · продакшн · вокал</span>
+    </li>
+    </ul>
+  </div>
+</section>
 
-  <p>А вот избранное:</p>
-
-  <ul class="grid">
-    <li class="card" data-audio="audio/not-today.mp3">
+<!-- 3. Комната прослушивания: сетка 3×3. Фон — визуализация из цветов обложки
+     играющей песни: течёт под мелодию, раздувается на бочке; на паузе застывает.
+     Вокруг играющей обложки — свечение её же цветов. -->
+<section class="room" id="songs">
+  <canvas class="room__glow" data-glow aria-hidden="true"></canvas>
+  <div class="room__in">
+    <p class="room__lead">А вот избранные</p>
+    <h2 class="room__h" data-brush="brush/pesni.json"><img src="img/pesni.svg" alt="песни"></h2>
+    <ul class="grid">
+    <li class="card" data-song="not-today" data-audio="audio/not-today.mp3" data-cover="covers/not-today.jpg">
       <span class="card__cover"><img src="covers/not-today.jpg" alt="" loading="lazy"></span>
-      <span class="strip"><button class="strip__play" type="button" aria-label="Слушать: Boy Indigo, Michael James — Not Today (feat. My Friend Aidar)">▶</button><span class="strip__track"><span class="strip__bar"></span></span><span class="strip__time">0:00</span></span>
+      <span class="strip"><button class="strip__play" type="button" aria-label="Слушать: Boy Indigo, Michael James — Not Today (feat. My Friend Aidar)">▶</button><svg class="strip__wave" data-wave preserveAspectRatio="none" aria-hidden="true"></svg><span class="strip__time" data-dur></span></span>
       <span class="card__name">Boy Indigo, Michael James — Not Today (feat. My Friend Aidar)</span>
       <span class="card__role">музыка · текст · продакшн · бэк-вокал</span>
     </li>
-    <li class="card" data-audio="audio/flow.mp3">
+    <li class="card" data-song="flow" data-audio="audio/flow.mp3" data-cover="covers/flow.jpg">
       <span class="card__cover"><img src="covers/flow.jpg" alt="" loading="lazy"></span>
-      <span class="strip"><button class="strip__play" type="button" aria-label="Слушать: My Friend Aidar — Flow (feat. Vanya Limb, амперметр, Sofiya Ozdzhan &amp; Sergio Vasko)">▶</button><span class="strip__track"><span class="strip__bar"></span></span><span class="strip__time">0:00</span></span>
+      <span class="strip"><button class="strip__play" type="button" aria-label="Слушать: My Friend Aidar — Flow (feat. Vanya Limb, амперметр, Sofiya Ozdzhan &amp; Sergio Vasko)">▶</button><svg class="strip__wave" data-wave preserveAspectRatio="none" aria-hidden="true"></svg><span class="strip__time" data-dur></span></span>
       <span class="card__name">My Friend Aidar — Flow (feat. Vanya Limb, амперметр, Sofiya Ozdzhan &amp; Sergio Vasko)</span>
       <span class="card__role">музыка · текст · продакшн · вокал · сведение · мастеринг</span>
     </li>
-    <li class="card" data-audio="audio/jyldys.mp3">
+    <li class="card" data-song="jyldys" data-audio="audio/jyldys.mp3" data-cover="covers/jyldys.jpg">
       <span class="card__cover"><img src="covers/jyldys.jpg" alt="" loading="lazy"></span>
-      <span class="strip"><button class="strip__play" type="button" aria-label="Слушать: Djinn City, Bayaru Takshina — Jyldys">▶</button><span class="strip__track"><span class="strip__bar"></span></span><span class="strip__time">0:00</span></span>
+      <span class="strip"><button class="strip__play" type="button" aria-label="Слушать: Djinn City, Bayaru Takshina — Jyldys">▶</button><svg class="strip__wave" data-wave preserveAspectRatio="none" aria-hidden="true"></svg><span class="strip__time" data-dur></span></span>
       <span class="card__name">Djinn City, Bayaru Takshina — Jyldys</span>
       <span class="card__role">музыка · продакшн · сведение</span>
     </li>
-    <li class="card" data-audio="audio/red.mp3">
+    <li class="card" data-song="red" data-audio="audio/red.mp3" data-cover="covers/slow.jpg">
       <span class="card__cover"><img src="covers/slow.jpg" alt="" loading="lazy"></span>
-      <span class="strip"><button class="strip__play" type="button" aria-label="Слушать: Djinn City — Red">▶</button><span class="strip__track"><span class="strip__bar"></span></span><span class="strip__time">0:00</span></span>
+      <span class="strip"><button class="strip__play" type="button" aria-label="Слушать: Djinn City — Red">▶</button><svg class="strip__wave" data-wave preserveAspectRatio="none" aria-hidden="true"></svg><span class="strip__time" data-dur></span></span>
       <span class="card__name">Djinn City — Red</span>
       <span class="card__role">музыка · текст · продакшн · вокал</span>
     </li>
-    <li class="card" data-audio="audio/head-like-a-wheel.mp3">
+    <li class="card" data-song="head-like-a-wheel" data-audio="audio/head-like-a-wheel.mp3" data-cover="covers/head-like-a-wheel-feat-michael-james.jpg">
       <span class="card__cover"><img src="covers/head-like-a-wheel-feat-michael-james.jpg" alt="" loading="lazy"></span>
-      <span class="strip"><button class="strip__play" type="button" aria-label="Слушать: Djinn City, Michael James — Head Like a Wheel">▶</button><span class="strip__track"><span class="strip__bar"></span></span><span class="strip__time">0:00</span></span>
+      <span class="strip"><button class="strip__play" type="button" aria-label="Слушать: Djinn City, Michael James — Head Like a Wheel">▶</button><svg class="strip__wave" data-wave preserveAspectRatio="none" aria-hidden="true"></svg><span class="strip__time" data-dur></span></span>
       <span class="card__name">Djinn City, Michael James — Head Like a Wheel</span>
       <span class="card__role">музыка · текст · продакшн · вокал</span>
     </li>
-    <li class="card" data-audio="audio/yul.mp3">
+    <li class="card" data-song="yul" data-audio="audio/yul.mp3" data-cover="covers/eyberlernen-bar-uz-jyry.jpg">
       <span class="card__cover"><img src="covers/eyberlernen-bar-uz-jyry.jpg" alt="" loading="lazy"></span>
-      <span class="strip"><button class="strip__play" type="button" aria-label="Слушать: Ыспай Бит — Юл">▶</button><span class="strip__track"><span class="strip__bar"></span></span><span class="strip__time">0:00</span></span>
+      <span class="strip"><button class="strip__play" type="button" aria-label="Слушать: Ыспай Бит — Юл">▶</button><svg class="strip__wave" data-wave preserveAspectRatio="none" aria-hidden="true"></svg><span class="strip__time" data-dur></span></span>
       <span class="card__name">Ыспай Бит — Юл</span>
       <span class="card__role">музыка · продакшн · вокал · сведение · мастеринг</span>
     </li>
-    <li class="card" data-audio="audio/fokusy.mp3">
+    <li class="card" data-song="fokusy" data-audio="audio/fokusy.mp3" data-cover="covers/fokusy.jpg">
       <span class="card__cover"><img src="covers/fokusy.jpg" alt="" loading="lazy"></span>
-      <span class="strip"><button class="strip__play" type="button" aria-label="Слушать: Ыспай Бит — Фокусы">▶</button><span class="strip__track"><span class="strip__bar"></span></span><span class="strip__time">0:00</span></span>
+      <span class="strip"><button class="strip__play" type="button" aria-label="Слушать: Ыспай Бит — Фокусы">▶</button><svg class="strip__wave" data-wave preserveAspectRatio="none" aria-hidden="true"></svg><span class="strip__time" data-dur></span></span>
       <span class="card__name">Ыспай Бит — Фокусы</span>
       <span class="card__role">музыка · продакшн · бэк-вокал · сведение · мастеринг</span>
     </li>
-    <li class="card" data-audio="audio/ayu.mp3">
+    <li class="card" data-song="ayu" data-audio="audio/ayu.mp3" data-cover="covers/eyberlernen-bar-uz-jyry.jpg">
       <span class="card__cover"><img src="covers/eyberlernen-bar-uz-jyry.jpg" alt="" loading="lazy"></span>
-      <span class="strip"><button class="strip__play" type="button" aria-label="Слушать: Ыспай Бит — Аю">▶</button><span class="strip__track"><span class="strip__bar"></span></span><span class="strip__time">0:00</span></span>
+      <span class="strip"><button class="strip__play" type="button" aria-label="Слушать: Ыспай Бит — Аю">▶</button><svg class="strip__wave" data-wave preserveAspectRatio="none" aria-hidden="true"></svg><span class="strip__time" data-dur></span></span>
       <span class="card__name">Ыспай Бит — Аю</span>
       <span class="card__role">музыка · продакшн · вокал · сведение · мастеринг</span>
     </li>
-    <li class="card" data-audio="audio/start-again.mp3">
+    <li class="card" data-song="start-again" data-audio="audio/start-again.mp3" data-cover="covers/start-again.jpg">
       <span class="card__cover"><img src="covers/start-again.jpg" alt="" loading="lazy"></span>
-      <span class="strip"><button class="strip__play" type="button" aria-label="Слушать: The Shopengauers — Start Again">▶</button><span class="strip__track"><span class="strip__bar"></span></span><span class="strip__time">0:00</span></span>
+      <span class="strip"><button class="strip__play" type="button" aria-label="Слушать: The Shopengauers — Start Again">▶</button><svg class="strip__wave" data-wave preserveAspectRatio="none" aria-hidden="true"></svg><span class="strip__time" data-dur></span></span>
       <span class="card__name">The Shopengauers — Start Again</span>
       <span class="card__role">музыка · текст · продакшн · вокал</span>
     </li>
-  </ul>
+    </ul>
+  </div>
+</section>
 
-  <p>Ну, всё… Надо дать ушам отдохнуть. А если хотите со мной поработать или просто
-    шепнуть что-то приятное, напишите мне письмо:</p>
+<!-- 4. Письмо. Фон — та же визуализация на красном: застывшая, оживает с музыкой. -->
+<section class="write" id="write">
+  <canvas class="write__glow" data-glow-write aria-hidden="true"></canvas>
+  <p class="write__lead">Ну, всё… Надо дать ушам отдохнуть. А если хотите со мной поработать или просто
+    шепнуть что-то приятное,</p>
+  <h2 class="write__h" data-brush="brush/napishite.json"><img src="img/napishite.svg" alt="Напишите мне"></h2>
 
   <form class="form" action="https://formsubmit.co/ajax/36f7e7436ccb0e58b3352c905df5de21" method="post" data-form novalidate>
     <label class="f"><span class="f__l">Ваше имя</span>
@@ -140,29 +166,43 @@
       <input class="f__i" type="text" name="telegram"></label>
     <label class="f"><span class="f__l">Другие контакты <i>необязательно</i></span>
       <input class="f__i" type="text" name="other"></label>
-    <label class="f"><span class="f__l">Тема</span>
+    <label class="f f--wide"><span class="f__l">Тема</span>
       <input class="f__i" type="text" name="subject" required></label>
-    <label class="f"><span class="f__l">Сообщение</span>
-      <textarea class="f__i f__t" name="message" rows="5" required></textarea></label>
+    <label class="f f--wide"><span class="f__l">Сообщение</span>
+      <textarea class="f__i f__t" name="message" rows="4" required></textarea></label>
     <input type="hidden" name="_subject">
     <input type="hidden" name="_template" value="table">
     <input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
-    <button class="btn" type="submit" data-submit>Отправить</button>
-    <span class="form__note" data-note role="status"></span>
+    <div class="form__end">
+      <button class="btn" type="submit" data-submit>Отправить</button>
+      <span class="form__note" data-note role="status"></span>
+    </div>
   </form>
 
-  <p class="fallback">Если с формой что-то не так, можете воспользоваться электронным
+  <p class="write__fallback">Если с формой что-то не так, можете воспользоваться электронным
     адресом <a data-mail>da-scoo (собака) ya.ru</a> или телеграмом
     <a href="https://t.me/akazabalamba">@akazabalamba</a>.</p>
+</section>
 
-  <footer class="foot">
-    <span>Казань</span>
-    <span>© <span id="y">2026</span></span>
-  </footer>
+<footer class="foot">
+  <p class="foot__name" data-brush="brush/spasibo.json"><img src="img/spasibo.svg" alt="Спасибо, что долистали!"></p>
+  <p class="foot__row">© <span data-year>2026</span></p>
+</footer>
 
 </main>
 
-<script src="js/app.js?v=10151700"></script>
-<script>document.getElementById('y').textContent=new Date().getFullYear()</script>
+<!-- Мини-плеер: держит песню, пока листаешь. -->
+<div class="mini" data-mini aria-live="polite">
+  <img class="mini__cover" data-mini-cover alt="">
+  <span class="mini__t" data-mini-title></span>
+  <canvas class="mini__eq" data-mini-eq aria-hidden="true"></canvas>
+  <button class="mini__btn" type="button" data-mini-btn aria-label="Пауза">❚❚</button>
+  <span class="mini__bar"><span data-mini-bar></span></span>
+</div>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
+<script src="waves.js?v=14040000"></script>
+<script src="v2.js?v=18101200"></script>
 </body>
 </html>
