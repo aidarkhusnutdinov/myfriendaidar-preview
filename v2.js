@@ -768,4 +768,19 @@
         .finally(function () { btn.disabled = false; btn.textContent = was; });
     });
   }
+
+  /* ================= СЛУШАЙТЕ: ВКЛАДКИ ================= */
+  // Навёл мышью или нажал пальцем на проект — ниже его стриминги. Открыта всегда одна вкладка,
+  // место под список занято заранее, так что ничего не сдвигается.
+  var pjs = $$('[data-pj] .pj');
+  var pjShow = function (b) {
+    pjs.forEach(function (o) {
+      o.setAttribute('aria-expanded', String(o === b));
+      document.getElementById(o.getAttribute('aria-controls')).hidden = o !== b;
+    });
+  };
+  pjs.forEach(function (b) {
+    b.addEventListener('mouseenter', function () { if (matchMedia('(hover:hover)').matches) pjShow(b); });
+    b.addEventListener('click', function () { pjShow(b); });
+  });
 })();

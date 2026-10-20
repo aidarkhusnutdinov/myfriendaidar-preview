@@ -136,7 +136,7 @@ button{ font:inherit; color:inherit }
 .bar.menu .bar__nav a:nth-child(3){ transition-delay:.5s }
 .bar.menu .bar__nav a:nth-child(4){ transition-delay:.75s }
 /* Переключатель языка — тише меню и чуть в стороне. */
-.bar__lang{ color:var(--dim); margin-left:clamp(0px,1vw,12px) }
+.bar__lang{ color:var(--red); margin-left:clamp(0px,1vw,12px) }
 .bar__nav a{ text-decoration:none; padding:6px 0; background:linear-gradient(var(--red),var(--red)) 0 100% / 0 2px no-repeat; transition:background-size .3s var(--ease) }
 .bar__nav a:hover{ background-size:100% 2px }
 
@@ -255,6 +255,30 @@ button{ font:inherit; color:inherit }
 .form__note{ font-size:16px }
 .form__note.is-err{ color:var(--yellow) }
 .write__fallback{ margin-top:clamp(30px,3.6vw,50px); margin-bottom:0; font-size:16px; opacity:.9 }
+.links{ margin-top:clamp(22px,2.6vw,32px); font-size:clamp(18px,1.6vw,21px) }
+.links__row{ display:flex; flex-wrap:wrap; align-items:center; gap:10px 26px; margin:0 0 14px }
+.links__h{ opacity:.9 }
+.ln{ display:inline-flex; align-items:center; gap:.45em; color:var(--paper); text-decoration:none;
+  padding:4px 0; background:linear-gradient(var(--paper),var(--paper)) 0 100% / 0 2px no-repeat; transition:background-size .3s var(--ease) }
+.ln:hover{ background-size:100% 2px }
+.ln__i{ width:1.15em; height:1.15em; fill:currentColor; flex:none }
+/* Вкладки: открытая — в рамке сверху и по бокам, общая черта идёт под остальным
+   и разрывается под ней, так что список ниже явно «её». */
+.links__tabs{ position:relative; align-items:flex-end; gap:0 6px; margin-bottom:16px; overflow:hidden }
+.links__tabs .links__h{ margin-right:14px; padding-bottom:8px }
+.pj{ position:relative; border:2px solid transparent; border-bottom:0; background:none; color:var(--paper);
+  font:inherit; cursor:pointer; padding:6px 14px 8px; opacity:.75 }
+.pj:hover{ opacity:1 }
+.pj[aria-expanded="true"]{ border-color:var(--paper); opacity:1 }
+.pj[aria-expanded="true"]::before, .pj[aria-expanded="true"]::after{
+  content:""; position:absolute; bottom:0; width:2000px; height:2px; background:var(--paper) }
+.pj[aria-expanded="true"]::before{ right:100%; margin-right:2px }
+.pj[aria-expanded="true"]::after{ left:100%; margin-left:2px }
+/* Оба списка лежат в одной клетке: высота = самый длинный, открыт — просто виден. */
+.links__drop{ display:grid }
+.links__list{ grid-area:1 / 1; display:flex; flex-wrap:wrap; align-content:flex-start; gap:8px 24px; margin:0 }
+.links__list[hidden]{ display:flex; visibility:hidden }
+@media (max-width:640px){ .links__h{ flex-basis:100%; margin-bottom:-4px } .links__tabs .links__h{ margin-bottom:4px; padding-bottom:0 } }
 
 /* ---------- Подвал ---------- */
 .foot{ background:var(--ink); color:var(--paper); padding:clamp(40px,5vw,70px) var(--gut) 22px }
